@@ -11,13 +11,14 @@
 127.0.0.1:80 - страница приема заявок
 127.0.0.1:15672 - админская панель rabbitmq
 127.0.0.1:5000/api/requests - адрес, куда необходимо присылать обращения.
+
 Поля обращения:
-    - id 
-    - surname 
-    - name 
-    - patronym 
-    - phone 
-    - message 
+- id 
+- surname 
+- name 
+- patronym 
+- phone 
+- message 
     
 # Запуск
 
