@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прием обращения гражданина</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Форма обращения гражданина</h1>
+
+<form id="appealForm">
+    <label for="surname">Фамилия:</label>
+    <input type="text" id="surname" name="surname" required>
+
+    <label for="name">Имя:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="patronym">Отчество:</label>
+    <input type="text" id="patronym" name="patronym" required>
+
+    <label for="phone">Телефон:</label>
+    <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="Введите 10 цифр">
+
+    <label for="message">Обращение:</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+
+    <button type="submit">Отправить</button>
+</form>
+
+<script>
+    $(document).ready(function() {
+        $('#appealForm').on('submit', function(event) {
+            event.preventDefault();
+
+            const formData = {
+                surname: $('#surname').val(),
+                name: $('#name').val(),
+                patronym: $('#patronym').val(),
+                phone: $('#phone').val(),
+                message: $('#message').val()
+            };
+
+            $.ajax({
+                url: 'http://127.0.0.1:5000/api/requests',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    alert('Ваше обращение отправлено успешно!');
+                    $('#appealForm')[0].reset();
+                },
+                error: function(xhr, status, error) {
+                    $('#appealForm')[0].reset();
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
+

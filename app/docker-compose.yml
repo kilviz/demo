@@ -1,0 +1,40 @@
+
+services:
+  ipfrontend:
+    build:
+      context: ./frontend
+    ports:
+      - "80:80"
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+
+  iprabbitmq:
+    build: ./rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  servicedb:
+    build: ./servicedb
+    depends_on:
+      iprabbitmq:
+        condition: service_healthy
+
+  db:
+    build: ./db
+    environment:
+      POSTGRES_DB: "demo"
+      POSTGRES_USER: "astra"
+      POSTGRES_PASSWORD: "astra"
+    ports:
+      - "5433:5432"
+
